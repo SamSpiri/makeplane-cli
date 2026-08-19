@@ -70,9 +70,9 @@ export async function handleModule(
     return;
   }
 
-  if (subcommand === 'update') {
+  if (subcommand === 'edit') {
     if (positional.length === 0)
-      throw new Error('Usage: pl module update "ModuleName" --project P [flags]');
+      throw new Error('Usage: pl module edit "ModuleName" --project P [flags]');
     const projectId = await resolveProjectArg(ctx, flags, defaultProject);
     const mod = await ctx.resolveModule(projectId, positional[0]);
     const body: Record<string, unknown> = {};
@@ -89,9 +89,9 @@ export async function handleModule(
     );
     ctx.invalidateModules(projectId);
     if (json) {
-      printJson({ name: body.name || mod.name, updated: true });
+      printJson({ name: body.name || mod.name, edited: true });
     } else {
-      process.stdout.write(`Updated module "${body.name || mod.name}"\n`);
+      process.stdout.write(`Edited module "${body.name || mod.name}"\n`);
     }
     return;
   }

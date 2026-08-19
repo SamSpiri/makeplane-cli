@@ -396,7 +396,7 @@ describe('handleProject', () => {
     });
   });
 
-  describe('update', () => {
+  describe('edit', () => {
     it('PATCHes project with name', async () => {
       const responses = baseResponses();
       const captured: CapturedRequest[] = [];
@@ -404,7 +404,7 @@ describe('handleProject', () => {
         handleProject(
           ctx(responses, captured),
           mockArgs({
-            subcommand: 'update',
+            subcommand: 'edit',
             positional: ['DEV'],
             flags: { name: 'Dev Reloaded' },
           }),
@@ -416,16 +416,16 @@ describe('handleProject', () => {
       expect(captured[0].path).toBe('/api/v1/workspaces/test-ws/projects/p1/');
       expect(captured[0].body).toEqual({ name: 'Dev Reloaded' });
       expect(out).toContain('DEV');
-      expect(out).toContain('Updated');
+      expect(out).toContain('Edited');
     });
 
-    it('identifier is auto-uppercased on update', async () => {
+    it('identifier is auto-uppercased on edit', async () => {
       const captured: CapturedRequest[] = [];
       await capturedOutput(() =>
         handleProject(
           ctx(baseResponses(), captured),
           mockArgs({
-            subcommand: 'update',
+            subcommand: 'edit',
             positional: ['DEV'],
             flags: { identifier: 'neww' },
           }),
@@ -451,7 +451,7 @@ describe('handleProject', () => {
         handleProject(
           ctx(responses, captured),
           mockArgs({
-            subcommand: 'update',
+            subcommand: 'edit',
             positional: ['DEV'],
             flags: { lead: 'a@b.com' },
           }),
@@ -466,7 +466,7 @@ describe('handleProject', () => {
       await expect(
         handleProject(
           ctx(responses),
-          mockArgs({ subcommand: 'update', positional: ['DEV'] }),
+          mockArgs({ subcommand: 'edit', positional: ['DEV'] }),
           null,
         ),
       ).rejects.toThrow(/No changes specified/);
@@ -474,8 +474,8 @@ describe('handleProject', () => {
 
     it('with no project errors', async () => {
       await expect(
-        handleProject(ctx(baseResponses()), mockArgs({ subcommand: 'update' }), null),
-      ).rejects.toThrow(/Usage: pl project update/);
+        handleProject(ctx(baseResponses()), mockArgs({ subcommand: 'edit' }), null),
+      ).rejects.toThrow(/Usage: pl project edit/);
     });
   });
 

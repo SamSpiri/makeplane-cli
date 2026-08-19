@@ -83,9 +83,9 @@ pl projects                              # List projects
 pl list --project DEV                    # List work items
 pl show DEV-42                           # Inspect an item
 pl create --project DEV --title "Fix bug"
-pl update DEV-42 --priority high
+pl edit DEV-42 --priority high
 pl close DEV-42
-pl comment DEV-42 "Verified in staging"
+pl comment DEV-42 -m "Verified in staging"
 pl label add DEV-42 backend
 pl cycle list --project DEV
 pl module list --project DEV
@@ -105,7 +105,7 @@ Run `pl help-all` for the complete command and flag reference.
 
 ### Descriptions and comments
 
-Use `--format text`, `--format html`, or `--format markdown` with `show`, `create`, `update`, and `comment`:
+Use `--format text`, `--format html`, or `--format markdown` with `show`, `create`, `edit`, and `comment`:
 
 ```bash
 pl create --project DEV --title "Release checklist" \
@@ -118,7 +118,7 @@ Plain text is the default. Markdown is converted to HTML for Plane writes; raw H
 ## What it supports
 
 - Agent-friendly work-item IDs such as `DEV-42`; UUIDs are handled internally.
-- Work-item search, listing, creation, updates, assignment, comments, labels, dependencies, and status changes.
+- Work-item search, listing, creation, editing, assignment, comments, labels, dependencies, and status changes.
 - Cycles, modules, projects, and cache management.
 - Readable terminal output plus structured `--json` output for agents and scripts.
 - A small TypeScript client that can also be imported by Node.js applications.

@@ -122,10 +122,10 @@ export async function handleProject(
     return;
   }
 
-  if (subcommand === 'update') {
+  if (subcommand === 'edit') {
     if (positional.length === 0) {
       throw new Error(
-        'Usage: pl project update PROJ [--name N] [--identifier X] [--body D] [--lead E] [--default-assignee E] [--network public|secret]',
+        'Usage: pl project edit PROJ [--name N] [--identifier X] [--body D] [--lead E] [--default-assignee E] [--network public|secret]',
       );
     }
     const project = await ctx.resolveProject(positional[0]);
@@ -156,10 +156,10 @@ export async function handleProject(
     await ctx.invalidateProjects();
 
     if (json) {
-      printJson({ identifier: project.identifier, updated: true, ...body });
+      printJson({ identifier: project.identifier, edited: true, ...body });
     } else {
       process.stdout.write(
-        `Updated project ${bold(project.identifier)} ${cyan(`"${(body.name as string) || project.name}"`)}\n`,
+        `Edited project ${bold(project.identifier)} ${cyan(`"${(body.name as string) || project.name}"`)}\n`,
       );
     }
     return;
@@ -188,5 +188,5 @@ export async function handleProject(
     return;
   }
 
-  throw new Error('Usage: pl project list|show|create|update|delete ...');
+  throw new Error('Usage: pl project list|show|create|edit|delete ...');
 }

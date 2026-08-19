@@ -32,7 +32,7 @@ ${bold('Assign, label, comment')}
   pl label create backend
   pl label rename backend platform
   pl label delete backend
-  pl comment PROJ-42 -b "text"               Add a comment (use heredoc for multiline)
+  pl comment PROJ-42 -m "text"               Add a comment (use heredoc for multiline)
 
 ${bold('Delete')}
   pl delete PROJ-42                          Delete a work item permanently
@@ -45,14 +45,14 @@ ${bold('Cycles & modules')}
   pl cycle list                              List cycles
   pl cycle show "Sprint 25"                  Show cycle details
   pl cycle create --title "Sprint 25"
-  pl cycle update "Sprint 25" [--title "New"] [--start-date 2024-01-01] [--end-date 2024-01-14]
+  pl cycle edit "Sprint 25" [--title "New"] [--start-date 2024-01-01] [--end-date 2024-01-14]
   pl cycle delete "Sprint 25"
   pl cycle add-issue "Sprint 24" PROJ-42
   pl cycle remove-issue "Sprint 24" PROJ-42
   pl module list                             List modules
   pl module show "Auth"                      Show module details
   pl module create --title "Auth"
-  pl module update "Auth" [--title "New"] [--status planned]
+  pl module edit "Auth" [--title "New"] [--status planned]
   pl module delete "Auth"
   pl module add-issue "Auth" PROJ-42
   pl module remove-issue "Auth" PROJ-42
@@ -60,7 +60,7 @@ ${bold('Cycles & modules')}
 ${bold('Projects')}
   pl project show PROJ                            Show project details
   pl project create --name "Name" --identifier X  Create a project
-  pl project update PROJ [--name N] [--body D] [--identifier X] [--lead E] [--default-assignee E] [--network public|secret]
+  pl project edit PROJ [--name N] [--body D] [--identifier X] [--lead E] [--default-assignee E] [--network public|secret]
   pl project delete PROJ                          Delete a project (irreversible)
 
 ${bold('Cache')}
@@ -122,7 +122,7 @@ function helpOverview(): string {
   pl blocked                                 Open items with blockers
   pl show PROJ-42 | 42                       Show work item details; bare numbers work anywhere an issue ID is accepted
   pl create -t "Title" -b "Description"      Create a work item
-  pl update 42 --priority P1                 Update a work item
+  pl edit 42 --priority P1                  Edit a work item
   pl close PROJ-42                           Close a work item
   pl reopen PROJ-42 [--state S]              Reopen a work item
   pl delete PROJ-42                          Delete a work item (admins/creator only)
@@ -146,7 +146,8 @@ function helpCoreFlags(): string {
   --state, -s       State name
   --priority        urgent | high | medium | low | none
   --title, -t       Work item title
-  --body, -b        Work item description or comment body (heredoc recommended)
+  --body, -b        Work item description (heredoc recommended)
+  --message, -m     Comment body (heredoc recommended)
   --help-all        Show extended help; individual commands don't have their own --help
 `;
 }

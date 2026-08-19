@@ -510,7 +510,7 @@ export class ResolverContext {
     }
     if (completed.length > 1) {
       throw new ResolveError(
-        `Multiple completed states found. Use "pl update PROJ-42 --state <name>" to pick one.\n` +
+        `Multiple completed states found. Use "pl edit PROJ-42 --state <name>" to pick one.\n` +
           `Completed states: ${completed.map((s) => s.name).join(', ')}`,
       );
     }

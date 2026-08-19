@@ -301,7 +301,7 @@ describe('handleWrite', () => {
         mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: 'Verified in staging' },
+          flags: { message: 'Verified in staging' },
         }),
         null,
       ),
@@ -329,7 +329,7 @@ describe('handleWrite', () => {
   });
 });
 
-// ── --format input parsing on create / update / comment ──
+// ── --format input parsing on create / edit / comment ──
 
 function workItemResponse(): Record<string, unknown> {
   return {
@@ -426,7 +426,7 @@ describe('handleWrite --format input parsing', () => {
     ).rejects.toThrow(/Invalid --format/);
   });
 
-  it('update with --format html passes body through', async () => {
+  it('edit with --format html passes body through', async () => {
     const responses = baseResponses();
     responses.set('/api/v1/workspaces/test-ws/issues/DEV-42/', workItemResponse());
     const captured: CapturedRequest[] = [];
@@ -436,7 +436,7 @@ describe('handleWrite --format input parsing', () => {
       handleWrite(
         ctx(responses, captured),
         mockArgs({
-          command: 'update',
+          command: 'edit',
           positional: ['DEV-42'],
           flags: { body: raw, format: 'html' },
         }),
@@ -448,7 +448,7 @@ describe('handleWrite --format input parsing', () => {
     expect((patch!.body as Record<string, unknown>).description_html).toBe(raw);
   });
 
-  it('update with --format markdown converts markdown to HTML', async () => {
+  it('edit with --format markdown converts markdown to HTML', async () => {
     const responses = baseResponses();
     responses.set('/api/v1/workspaces/test-ws/issues/DEV-42/', workItemResponse());
     const captured: CapturedRequest[] = [];
@@ -457,7 +457,7 @@ describe('handleWrite --format input parsing', () => {
       handleWrite(
         ctx(responses, captured),
         mockArgs({
-          command: 'update',
+          command: 'edit',
           positional: ['DEV-42'],
           flags: { body: 'plain text with `code`', format: 'markdown' },
         }),
@@ -479,10 +479,10 @@ describe('handleWrite --format input parsing', () => {
     await capturedOutput(() =>
       handleWrite(
         ctx(responses, captured),
-        mockArgs({
+mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: raw, format: 'html' },
+          flags: { message: raw, format: 'html' },
         }),
         null,
       ),
@@ -503,7 +503,7 @@ describe('handleWrite --format input parsing', () => {
         mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: '## Update\n\n- item one\n- item two', format: 'markdown' },
+          flags: { message: '## Update\n\n- item one\n- item two', format: 'markdown' },
         }),
         null,
       ),
@@ -527,7 +527,7 @@ describe('handleWrite --format input parsing', () => {
         mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: 'Verified in staging' },
+          flags: { message: 'Verified in staging' },
         }),
         null,
       ),
@@ -547,7 +547,7 @@ describe('handleWrite --format input parsing', () => {
         mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: 'hi', format: 'json' },
+          flags: { message: 'hi', format: 'json' },
         }),
         null,
       ),
@@ -587,7 +587,7 @@ describe('handleWrite auto-detect markdown', () => {
         mockArgs({
           command: 'comment',
           positional: ['DEV-42'],
-          flags: { body: '## Update\n\n[link](https://x.com)' },
+          flags: { message: '## Update\n\n[link](https://x.com)' },
         }),
         null,
       ),

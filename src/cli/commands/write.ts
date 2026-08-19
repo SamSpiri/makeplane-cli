@@ -15,7 +15,7 @@ function priorityValue(input: string): string {
   return map[input.toLowerCase()] || input;
 }
 
-interface UpdateBody {
+interface EditBody {
   name?: string;
   description_html?: string;
   priority?: string;
@@ -24,12 +24,12 @@ interface UpdateBody {
   labels?: string[];
 }
 
-async function buildUpdateBody(
+async function buildEditBody(
   ctx: ResolverContext,
   flags: Record<string, string | boolean>,
   projectId: string,
-): Promise<UpdateBody> {
-  const body: UpdateBody = {};
+): Promise<EditBody> {
+  const body: EditBody = {};
 
   if (flags.title) body.name = flags.title as string;
   if (flags.body)
@@ -60,7 +60,7 @@ export async function handleWrite(
     case 'create': {
       const projectId = await resolveProjectArg(ctx, flags, defaultProject);
       const project = await ctx.resolveProjectById(projectId);
-      const body = await buildUpdateBody(ctx, flags, projectId);
+      const body = await buildEditBody(ctx, flags, projectId);
 
       if (!flags.title) throw new Error('--title is required for create');
 
@@ -86,13 +86,13 @@ export async function handleWrite(
       return;
     }
 
-    // ── update ──
-    case 'update': {
+    // ── edit ──
+    case 'edit': {
       if (positional.length === 0) {
-        throw new Error('Usage: pl update PROJ-42 [flags]');
+        throw new Error('Usage: pl edit PROJ-42 [flags]');
       }
       const wi = await ctx.resolveWorkItem(positional[0]);
-      const body = await buildUpdateBody(ctx, flags, wi.project_id);
+      const body = await buildEditBody(ctx, flags, wi.project_id);
 
       if (Object.keys(body).length === 0) {
         throw new Error('No changes specified. Use flags like --priority, --state, --title, etc.');
@@ -104,9 +104,9 @@ export async function handleWrite(
       );
 
       if (json) {
-        printJson({ identifier: wi.identifier, updated: true });
+        printJson({ identifier: wi.identifier, edited: true });
       } else {
-        process.stdout.write(`Updated ${wi.identifier}\n`);
+        process.stdout.write(`Edited ${wi.identifier}\n`);
       }
       return;
     }
@@ -185,13 +185,13 @@ export async function handleWrite(
 
     // ── comment ──
     case 'comment': {
-      if (positional.length < 1 || !flags.body || typeof flags.body !== 'string') {
+      if (positional.length < 1 || !flags.message || typeof flags.message !== 'string') {
         throw new Error(
-          'Usage: pl comment PROJ-42 -b "text" [--format html|markdown] (use heredoc for multiline)',
+          'Usage: pl comment PROJ-42 -m "text" [--format html|markdown] (use heredoc for multiline)',
         );
       }
       const wi = await ctx.resolveWorkItem(positional[0]);
-      const text = flags.body as string;
+      const text = flags.message as string;
       const html = bodyToHtml(text, flags.format as string | undefined);
 
       await ctx.client.post(

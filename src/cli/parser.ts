@@ -14,9 +14,10 @@ const OPTIONS = {
   priority: { type: 'string' },
   assignee: { type: 'string', short: 'a' },
   cycle: { type: 'string' },
-  module: { type: 'string', short: 'm' },
+  module: { type: 'string' },
   title: { type: 'string', short: 't' },
   body: { type: 'string', short: 'b' },
+  message: { type: 'string', short: 'm' },
   limit: { type: 'string' },
   json: { type: 'boolean' },
   'no-color': { type: 'boolean' },
@@ -67,9 +68,9 @@ export function parse(argv: string[]): ParsedArgs {
   const subcommands: Record<string, string[]> = {
     label: ['add', 'remove', 'list', 'create', 'rename', 'delete'],
     dep: ['add', 'remove'],
-    cycle: ['add-issue', 'remove-issue', 'list', 'create', 'update', 'delete', 'show'],
-    module: ['add-issue', 'remove-issue', 'list', 'create', 'update', 'delete', 'show'],
-    project: ['list', 'show', 'create', 'update', 'delete'],
+    cycle: ['add-issue', 'remove-issue', 'list', 'create', 'edit', 'delete', 'show'],
+    module: ['add-issue', 'remove-issue', 'list', 'create', 'edit', 'delete', 'show'],
+    project: ['list', 'show', 'create', 'edit', 'delete'],
     cache: ['clear', 'show'],
   };
 

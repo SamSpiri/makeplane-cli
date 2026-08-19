@@ -1,6 +1,6 @@
 {
   "name": "@samspiri/makeplane-cli",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "AI-first CLI for Plane: manage work items, projects, cycles, and modules without UUIDs.",
   "type": "module",
   "bin": {

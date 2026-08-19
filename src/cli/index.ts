@@ -25,7 +25,7 @@ const READ_COMMANDS = new Set([
 
 const WRITE_COMMANDS = new Set([
   'create',
-  'update',
+  'edit',
   'close',
   'reopen',
   'assign',

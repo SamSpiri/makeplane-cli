@@ -83,9 +83,9 @@ export async function handleCycle(
     return;
   }
 
-  if (subcommand === 'update') {
+  if (subcommand === 'edit') {
     if (positional.length === 0)
-      throw new Error('Usage: pl cycle update "CycleName" --project P [flags]');
+      throw new Error('Usage: pl cycle edit "CycleName" --project P [flags]');
     const projectId = await resolveProjectArg(ctx, flags, defaultProject);
     const cycle = await ctx.resolveCycle(projectId, positional[0]);
     const body: Record<string, unknown> = {};
@@ -101,9 +101,9 @@ export async function handleCycle(
     );
     ctx.invalidateCycles(projectId);
     if (json) {
-      printJson({ name: body.name || cycle.name, updated: true });
+      printJson({ name: body.name || cycle.name, edited: true });
     } else {
-      process.stdout.write(`Updated cycle "${body.name || cycle.name}"\n`);
+      process.stdout.write(`Edited cycle "${body.name || cycle.name}"\n`);
     }
     return;
   }
